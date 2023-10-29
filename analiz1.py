@@ -20,8 +20,19 @@ def periyot_analizi():
     
     st.write(f"{current_periyot}. Periyot Analizi")
     
-    counts = {saka: st.slider(saka, 0, 10, 0, key=f"{saka}_slider_{current_periyot}") for saka in saka_turleri}
-    notes = {saka: st.text_input(f"{saka} için notlar", "", key=f"{saka}_notes_{current_periyot}") for saka in saka_turleri}
+    # Initialize empty dictionaries to hold slider values and notes
+    counts = {}
+    notes = {}
+
+    for saka in saka_turleri:
+        # Create a new row with two columns: one for slider, one for notes
+        col1, col2 = st.columns(2)
+
+        # In the first column, create the slider
+        counts[saka] = col1.slider(saka, 0, 10, 0, key=f"{saka}_slider_{current_periyot}")
+        
+        # In the second column, create the input for notes
+        notes[saka] = col2.text_input(f"{saka} için notlar", "", key=f"{saka}_notes_{current_periyot}")
 
     if st.button("Sonraki Periyot"):
         st.session_state.periyot_data[st.session_state.current_periyot] = {
