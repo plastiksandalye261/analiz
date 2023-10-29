@@ -1,11 +1,7 @@
 import streamlit as st
 
 # Kategoriler ve alt maddeler
-kategoriler = {
-    "Önyargı": ["Dış Görünüş", "Sempatiklik", "Kıyafet", "Davranış", "Seyirci İlişkisi", "Ses Tonu", "Konuşma Şekli", "Agresiflik", "Kibir"],
-    "Zanaat": ["Ses Kullanışı", "Tonlama", "Vurgulama", "Elini Kolu Kullanışı", "Sahne Hakimiyeti", "Seyirci İnteraktifi", "Hız", "Doğallık", "Spontanlık", "Diksiyon"],
-    "Delivery": ["Jest", "Mimik", "Karakter Yaratma", "Taklit", "Mikrofon Kullanışı", "Timing", "LPM"]
-}
+
 
 saka_turleri = ["LPM", "Aforizma Cümle", "Şiirsellik", "Şaka Türleri", "Kendini Tanıtma", "İlginç Hikaye", "Anektod", "Mantık Hatası", "Bir Şeyi Çürütme",
                 "Savunma", "Tespit", "Anlar", "Teknikler", "Küfür", "Komik Kelime", "İsim", "Benzetme", "Misdirection", "Detaylar", "Done",  "Jest", "Uzun Şaka",
@@ -44,18 +40,4 @@ def finish_analysis():
     if st.button("Yeniden Başla"):
         kategorileri_goster()
 
-def kategorileri_goster():
-    for kat, alt_maddeler in kategoriler.items():
-        st.write(kat)
-        for madde in alt_maddeler:
-            st.slider(madde, 0, 10, 0)
-            st.text_input(f"{madde} için notlar", "")
 
-    if st.button("Analiz Başla"):
-        periyot_analizi()
-
-def main():
-    kategorileri_goster()
-
-if __name__ == "__main__":
-    main()
