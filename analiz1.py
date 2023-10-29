@@ -24,15 +24,15 @@ def periyot_analizi():
     notes = {saka: st.text_input(f"{saka} için notlar", "", key=f"{saka}_notes_{current_periyot}") for saka in saka_turleri}
 
     if st.button("Sonraki Periyot"):
-       st.session_state.periyot_data[st.session_state.current_periyot] = {
+        st.session_state.periyot_data[st.session_state.current_periyot] = {
             "notes": notes,
             "counts": counts
         }
         st.session_state.current_periyot += 1
         periyot_analizi()
-
     elif st.button("Analizi Bitir"):
         finish_analysis()
+
 
 def finish_analysis():
     for periyot, data in st.session_state.periyot_data.items():
