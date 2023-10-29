@@ -15,19 +15,20 @@ periyot_data = {}
 current_periyot = 1
 
 def periyot_analizi():
-    global current_periyot, periyot_data
+    current_periyot = st.session_state.current_periyot
+    periyot_data = st.session_state.periyot_data
     
     st.write(f"{current_periyot}. Periyot Analizi")
     
-    counts = {saka: st.slider(saka, 0, 10, 0) for saka in saka_turleri}
-    notes = {saka: st.text_input(f"{saka} için notlar", "") for saka in saka_turleri}
+    counts = {saka: st.slider(saka, 0, 10, 0, key=f"{saka}_slider_{current_periyot}") for saka in saka_turleri}
+    notes = {saka: st.text_input(f"{saka} için notlar", "", key=f"{saka}_notes_{current_periyot}") for saka in saka_turleri}
 
     if st.button("Sonraki Periyot"):
-        periyot_data[current_periyot] = {
+       st.session_state.periyot_data[st.session_state.current_periyot] = {
             "notes": notes,
             "counts": counts
         }
-        current_periyot += 1
+        st.session_state.current_periyot += 1
         periyot_analizi()
 
     elif st.button("Analizi Bitir"):
