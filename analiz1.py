@@ -36,7 +36,7 @@ def periyot_analizi():
         count = st.session_state[f"{saka}_count_{current_periyot}"]
         col1.write(f"{saka}: {count}")
         if col1.button(f"Increment {saka}", key=f"{saka}_button_{current_periyot}"):
-            if count < 10:  # Ensure the count doesn't go above 10
+            if count < 50:  # Ensure the count doesn't go above 10
                 st.session_state[f"{saka}_count_{current_periyot}"] += 1
 
         # Store the count in the counts dictionary for later use
