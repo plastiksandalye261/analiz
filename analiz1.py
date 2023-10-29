@@ -16,34 +16,23 @@ current_periyot = 1
 
 def periyot_analizi():
     current_periyot = st.session_state.current_periyot
-    periyot_data = st.session_state.periyot_data
     
     st.write(f"{current_periyot}. Periyot Analizi")
     
-    # Initialize empty dictionaries to hold button counts and notes
     counts = {}
     notes = {}
-
     for saka in saka_turleri:
-        # Create a new row with two columns: one for button and counter, one for notes
-        col1, col2 = st.columns(2)
-
-        # If the counter for the button is not yet in session state, initialize it
-        if f"{saka}_count_{current_periyot}" not in st.session_state:
+        # Create a button for incrementing counts
+        if saka not in st.session_state or f"{saka}_count_{current_periyot}" not in st.session_state:
             st.session_state[f"{saka}_count_{current_periyot}"] = 0
+
+        if st.button(f"Increment {saka}", key=f"{saka}_button_{current_periyot}"):
+            st.session_state[f"{saka}_count_{current_periyot}"] += 1
+
+        counts[saka] = st.session_state[f"{saka}_count_{current_periyot}"]
+        st.write(f"{saka}: {counts[saka]}")
         
-        # In the first column, display the current count and a button to increment the count
-        count = st.session_state[f"{saka}_count_{current_periyot}"]
-        col1.write(f"{saka}: {count}")
-        if col1.button(f"Increment {saka}", key=f"{saka}_button_{current_periyot}"):
-            if count < 50:  # Ensure the count doesn't go above 10
-                st.session_state[f"{saka}_count_{current_periyot}"] += 1
-
-        # Store the count in the counts dictionary for later use
-        counts[saka] = count
-
-        # In the second column, create the input for notes
-        notes[saka] = col2.text_input(f"{saka} için notlar", "", key=f"{saka}_notes_{current_periyot}")
+        notes[saka] = st.text_input(f"{saka} için notlar", "", key=f"{saka}_notes_{current_periyot}")
 
     if st.button("Sonraki Periyot"):
         st.session_state.periyot_data[st.session_state.current_periyot] = {
@@ -54,6 +43,7 @@ def periyot_analizi():
         periyot_analizi()
     elif st.button("Analizi Bitir"):
         finish_analysis()
+
 
 
 def finish_analysis():
