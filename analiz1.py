@@ -20,17 +20,28 @@ def periyot_analizi():
     
     st.write(f"{current_periyot}. Periyot Analizi")
     
-    # Initialize empty dictionaries to hold slider values and notes
+    # Initialize empty dictionaries to hold button counts and notes
     counts = {}
     notes = {}
 
     for saka in saka_turleri:
-        # Create a new row with two columns: one for slider, one for notes
+        # Create a new row with two columns: one for button and counter, one for notes
         col1, col2 = st.columns(2)
 
-        # In the first column, create the slider
-        counts[saka] = col1.slider(saka, 0, 10, 0, key=f"{saka}_slider_{current_periyot}")
+        # If the counter for the button is not yet in session state, initialize it
+        if f"{saka}_count_{current_periyot}" not in st.session_state:
+            st.session_state[f"{saka}_count_{current_periyot}"] = 0
         
+        # In the first column, display the current count and a button to increment the count
+        count = st.session_state[f"{saka}_count_{current_periyot}"]
+        col1.write(f"{saka}: {count}")
+        if col1.button(f"Increment {saka}", key=f"{saka}_button_{current_periyot}"):
+            if count < 10:  # Ensure the count doesn't go above 10
+                st.session_state[f"{saka}_count_{current_periyot}"] += 1
+
+        # Store the count in the counts dictionary for later use
+        counts[saka] = count
+
         # In the second column, create the input for notes
         notes[saka] = col2.text_input(f"{saka} için notlar", "", key=f"{saka}_notes_{current_periyot}")
 
