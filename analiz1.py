@@ -1,6 +1,10 @@
 import streamlit as st
 
-# Kategoriler ve alt maddeler
+# Initialize the session state
+if 'init' not in st.session_state:
+    st.session_state.init = True
+    st.session_state.current_periyot = 1
+    st.session_state.periyot_data = {}
 
 
 saka_turleri = ["LPM", "Aforizma Cümle", "Şiirsellik", "Şaka Türleri", "Kendini Tanıtma", "İlginç Hikaye", "Anektod", "Mantık Hatası", "Bir Şeyi Çürütme",
@@ -30,14 +34,19 @@ def periyot_analizi():
         finish_analysis()
 
 def finish_analysis():
-    global periyot_data
-
-    for periyot, data in periyot_data.items():
+    for periyot, data in st.session_state.periyot_data.items():
         st.write(f"{periyot}. Periyot İstatistikleri:")
         for saka, count in data["counts"].items():
             st.write(f"{saka}: {count} kez, Not: {data['notes'][saka]}")
 
     if st.button("Yeniden Başla"):
-        kategorileri_goster()
+        st.session_state.init = True
+        st.session_state.current_periyot = 1
+        st.session_state.periyot_data = {}
 
+# Check session state to determine which function to call
+if st.session_state.init:
+    periyot_analizi()
+else:
+    finish_analysis()
 
