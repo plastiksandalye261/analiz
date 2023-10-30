@@ -16,22 +16,28 @@ current_periyot = 1
 
 def periyot_analizi():
     current_periyot = st.session_state.current_periyot
-    
     st.write(f"{current_periyot}. Periyot Analizi")
     
     counts = {}
     notes = {}
+    
     for saka in saka_turleri:
-        # Create a button for incrementing counts
+        # Initialize or get current count
         if saka not in st.session_state or f"{saka}_count_{current_periyot}" not in st.session_state:
             st.session_state[f"{saka}_count_{current_periyot}"] = 0
-
-        if st.button(f"Increment {saka}", key=f"{saka}_button_{current_periyot}"):
-            st.session_state[f"{saka}_count_{current_periyot}"] += 1
-
-        counts[saka] = st.session_state[f"{saka}_count_{current_periyot}"]
-        st.write(f"{saka}: {counts[saka]}")
         
+        # Create a button to increment the count
+        if st.button(f"Increment {saka}", key=f"{saka}_button_{current_periyot}"):
+            if st.session_state[f"{saka}_count_{current_periyot}"] < 10:
+                st.session_state[f"{saka}_count_{current_periyot}"] += 1
+        
+        # Display the current count
+        st.write(f"{saka} Count: {st.session_state[f'{saka}_count_{current_periyot}']}")
+        
+        # Add to counts dictionary
+        counts[saka] = st.session_state[f"{saka}_count_{current_periyot}"]
+        
+        # Notes input
         notes[saka] = st.text_input(f"{saka} için notlar", "", key=f"{saka}_notes_{current_periyot}")
 
     if st.button("Sonraki Periyot"):
@@ -43,7 +49,6 @@ def periyot_analizi():
         periyot_analizi()
     elif st.button("Analizi Bitir"):
         finish_analysis()
-
 
 
 def finish_analysis():
